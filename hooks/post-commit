@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# After the entire commit process is completed, the post-commit hook runs. It
+# doesn’t take any parameters, but you can easily get the last commit by running
+# git log -1 HEAD. Generally, this script is used for notification or something
+# similar.
+#
+# To enable this hook, rename this file to "post-commit".
+
+HOOK=${0##*/}
+SCRIPT_PATH=${0%/*}
+
+issues=$(
+    git log -1 HEAD \
+        | grep -E "[A-Z,0-9]+-[0-9]+" -o \
+        | jq -R -s -c 'split("\n")' \
+      )
+# repipe to get rid of empty string because of trailing newline
+issues=$(echo $issues | jq -c '.[:-1]')
+
+# send event
+"$SCRIPT_PATH"/aw-event-create "$HOOK" "$issues"

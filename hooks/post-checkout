@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# After you run a successful git checkout, the post-checkout hook runs; you can
+# use it to set up your working directory properly for your project environment.
+# This may mean moving in large binary files that you don’t want source
+# controlled, auto-generating documentation, or something along those lines.
+#
+# To enable this hook, rename this file to "post-checkout".
+
+HOOK=${0##*/}
+SCRIPT_PATH=${0%/*}
+
+issues=$(
+    git branch --show-current \
+        | grep -E "[A-Z,0-9]+-[0-9]+" -o \
+        | jq -R -s -c 'split("\n")' \
+      )
+# repipe to get rid of empty string because of trailing newline
+issues=$(echo $issues | jq -c '.[:-1]')
+
+# send event
+"$SCRIPT_PATH"/aw-event-create "$HOOK" "$issues"

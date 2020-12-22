@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# git-hook event model
+# timestamp: string(datetime)
+# data: {
+#   hook*: string,     # git-hook name
+#   issues*: [string]  # issue numbers (including # or project name)
+# }
+
+# read event data from arguments
+hook=$1
+issues=$2
+if [ -z "$issues" ] ; then
+    issues="[]"
+fi
+
+# settings
+BUCKET="aw-git-hooks_$HOSTNAME"
+AW_SERVER="http://localhost:5600"
+SCRIPT_PATH=${0%/*}
+
+http () {
+    method=$1
+    path=$2
+    data=""  # request body
+    if [ -n "$3" ] ; then
+        data="-d $3"
+    fi
+    echo $(curl -s \
+                -X $method \
+                -H "content-type: application/json" \
+                -o /dev/null \
+                -w "%{http_code}\n" \
+                --url $AW_SERVER$path \
+                $data)
+}
+
+# create bucket (if not exists)
+"$SCRIPT_PATH"/aw-bucket-create
+
+# prepare event
+event=$(cat <<EOF
+{"timestamp":"$(date --iso-8601=s --utc)","data":{"hook":"$hook","issues":$issues}}
+EOF
+)
+# check event body
+if jq -e . >/dev/null 2>&1 <<<"$json_string"; then
+    echo "Successfully parsed event as json."
+else
+    echo "Failed to parse event as json."
+fi
+
+# send event
+if [ "$(http POST /api/0/buckets/$BUCKET/events $event)" = "200" ] ; then
+    echo "Successfully created event $event in bucket $BUCKET at aw-server $AW_SERVER."
+else
+    echo "Failed to create event $event in bucket $BUCKET at aw-server $AW_SERVER."
+fi
