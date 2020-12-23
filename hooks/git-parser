@@ -6,6 +6,8 @@ git_issues_from_last_commit() {
     issues=$(
         git log -1 HEAD \
             | grep -E "#[0-9]+|[A-Z,0-9]+-[0-9]+" -o \
+            | sort \
+            | uniq \
             | jq -R -s -c 'split("\n")' \
           )
     # repipe to get rid of empty string because of trailing newline

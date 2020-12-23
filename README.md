@@ -5,9 +5,10 @@
 
 - [ ] Check git clone and git init copies the hooks
 
-### ActivityWatch
+### ActivityWatch (aw)
 
 - [x] Send events to bucket `aw-git-hooks_$HOSTNAME` on post-commit or post-checkout
+- [x] Add unique list of issues to the aw event
 - [x] Support Jira issues, e.g., `MYPROJECT-123`
 - [x] Support GitHub/GitLab issues, e.g., `#123`
 - [x] Use commit timestamp for post-commit event
