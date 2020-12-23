@@ -19,6 +19,7 @@ event=$(jq -c <<EOF
   "timestamp": "$(date --iso-8601=s --utc)",
   "data": {
     "hook": "$HOOK",
+    "branch": "$(git_current_branch)",
     "issues": $(git_issues_from_current_branch)
   }
 }

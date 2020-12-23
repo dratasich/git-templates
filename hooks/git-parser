@@ -14,6 +14,17 @@ git_issues_from_last_commit() {
     echo "$issues"
 }
 
+git_title_from_last_commit() {
+    title=$(
+        git log -1 HEAD \
+            --pretty=short \
+            | tail -n 1 \
+            | xargs
+           )
+    # return
+    echo "$title"
+}
+
 git_issues_from_current_branch() {
     issues=$(
         git branch --show-current \
@@ -24,4 +35,8 @@ git_issues_from_current_branch() {
     issues=$(echo $issues | jq -c '.[:-1]')
     # return
     echo "$issues"
+}
+
+git_current_branch() {
+    echo "$(git branch --show-current)"
 }

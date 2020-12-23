@@ -12,8 +12,8 @@
 - [ ] Support GitHub/GitLab issues, e.g., `#123`
 - [ ] Use commit timestamp for event
 - [ ] Check effect wenn using duration (e.g., 6h) in event
-- [ ] Add branch
-- [ ] Add first line commit message (summary)
+- [x] Add branch
+- [x] Add first line of commit message (summary/title)
 
 
 ## Install

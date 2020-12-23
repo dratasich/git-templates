@@ -4,7 +4,9 @@
 # timestamp: string(datetime)
 # data: {
 #   hook*: string,     # git-hook name
-#   issues*: [string]  # issue numbers (including # or project name)
+#   branch: string,    # name of the current branch
+#   summary: string,   # summary what changed, e.g., first line of commit
+#   issues: [string]   # issue numbers (including # or project name)
 # }
 
 # read event data from arguments
@@ -16,19 +18,16 @@ AW_SERVER="http://localhost:5600"
 SCRIPT_PATH=${0%/*}
 
 http () {
-    method=$1
-    path=$2
-    data=""  # request body
-    if [ -n "$3" ] ; then
-        data="-d $3"
-    fi
+    method="$1"
+    path="$2"
+    data="$3"
     echo $(curl -s \
                 -X $method \
                 -H "content-type: application/json" \
                 -o /dev/null \
                 -w "%{http_code}\n" \
                 --url $AW_SERVER$path \
-                $data)
+                -d "$data")
 }
 
 # create bucket (if not exists)
@@ -42,7 +41,7 @@ else
 fi
 
 # send event
-if [ "$(http POST /api/0/buckets/$BUCKET/events $event)" = "200" ] ; then
+if [ "$(http POST /api/0/buckets/$BUCKET/events "$event")" = "200" ] ; then
     echo "Successfully created event $event in bucket $BUCKET at aw-server $AW_SERVER."
 else
     echo "Failed to create event $event in bucket $BUCKET at aw-server $AW_SERVER."
