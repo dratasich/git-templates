@@ -8,11 +8,7 @@
 # }
 
 # read event data from arguments
-hook=$1
-issues=$2
-if [ -z "$issues" ] ; then
-    issues="[]"
-fi
+event=$1
 
 # settings
 BUCKET="aw-git-hooks_$HOSTNAME"
@@ -38,13 +34,8 @@ http () {
 # create bucket (if not exists)
 "$SCRIPT_PATH"/aw-bucket-create
 
-# prepare event
-event=$(cat <<EOF
-{"timestamp":"$(date --iso-8601=s --utc)","data":{"hook":"$hook","issues":$issues}}
-EOF
-)
 # check event body
-if jq -e . >/dev/null 2>&1 <<<"$json_string"; then
+if jq -e . >/dev/null 2>&1 <<<"$event"; then
     echo "Successfully parsed event as json."
 else
     echo "Failed to parse event as json."

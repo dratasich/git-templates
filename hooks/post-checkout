@@ -10,13 +10,18 @@
 HOOK=${0##*/}
 SCRIPT_PATH=${0%/*}
 
-issues=$(
-    git branch --show-current \
-        | grep -E "[A-Z,0-9]+-[0-9]+" -o \
-        | jq -R -s -c 'split("\n")' \
-      )
-# repipe to get rid of empty string because of trailing newline
-issues=$(echo $issues | jq -c '.[:-1]')
+# load helpers
+. "$SCRIPT_PATH"/git-parser
 
-# send event
-"$SCRIPT_PATH"/aw-event-create "$HOOK" "$issues"
+# send event to activity watch
+event=$(jq -c <<EOF
+{
+  "timestamp": "$(date --iso-8601=s --utc)",
+  "data": {
+    "hook": "$HOOK",
+    "issues": $(git_issues_from_current_branch)
+  }
+}
+EOF
+     )
+"$SCRIPT_PATH"/aw-event-create "$event"
