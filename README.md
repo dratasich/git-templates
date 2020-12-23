@@ -9,7 +9,7 @@
 
 - [x] Send events to bucket `aw-git-hooks_$HOSTNAME` on post-commit or post-checkout
 - [x] Support Jira issues, e.g., `MYPROJECT-123`
-- [ ] Support GitHub/GitLab issues, e.g., `#123`
+- [x] Support GitHub/GitLab issues, e.g., `#123`
 - [ ] Use commit timestamp for event
 - [x] Check effect wenn using duration (e.g., 6h) in event, needs duration > 0
       to be visible in timeline -> 1s. If set to 1h and another event is sent to

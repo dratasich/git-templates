@@ -5,7 +5,7 @@
 git_issues_from_last_commit() {
     issues=$(
         git log -1 HEAD \
-            | grep -E "[A-Z,0-9]+-[0-9]+" -o \
+            | grep -E "#[0-9]+|[A-Z,0-9]+-[0-9]+" -o \
             | jq -R -s -c 'split("\n")' \
           )
     # repipe to get rid of empty string because of trailing newline
@@ -28,7 +28,7 @@ git_title_from_last_commit() {
 git_issues_from_current_branch() {
     issues=$(
         git branch --show-current \
-            | grep -E "[A-Z,0-9]+-[0-9]+" -o \
+            | grep -E "#[0-9]+|[A-Z,0-9]+-[0-9]+" -o \
             | jq -R -s -c 'split("\n")' \
           )
     # repipe to get rid of empty string because of trailing newline
