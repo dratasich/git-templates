@@ -15,14 +15,11 @@ git_issues_from_last_commit() {
 }
 
 git_title_from_last_commit() {
-    title=$(
-        git log -1 HEAD \
-            --pretty=short \
-            | tail -n 1 \
-            | xargs
-           )
-    # return
-    echo "$title"
+    echo "$(git log -1 HEAD --format="%s")"
+}
+
+git_timestamp_from_last_commit() {
+    echo "$(git log -1 HEAD --format="%aI")"
 }
 
 git_issues_from_current_branch() {
