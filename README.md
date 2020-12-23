@@ -11,7 +11,10 @@
 - [x] Support Jira issues, e.g., `MYPROJECT-123`
 - [ ] Support GitHub/GitLab issues, e.g., `#123`
 - [ ] Use commit timestamp for event
-- [ ] Check effect wenn using duration (e.g., 6h) in event
+- [x] Check effect wenn using duration (e.g., 6h) in event, needs duration > 0
+      to be visible in timeline -> 1s. If set to 1h and another event is sent to
+      the bucket within the same hour, the events are overlapping, i.e., a new
+      event does not stop the previous one.
 - [x] Add branch
 - [x] Add first line of commit message (summary/title)
 
