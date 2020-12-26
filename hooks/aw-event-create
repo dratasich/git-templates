@@ -4,6 +4,7 @@
 # timestamp: string(datetime)
 # data: {
 #   hook*: string,     # git-hook name
+#   origin: string,    # git remote.origin.url
 #   branch: string,    # name of the current branch
 #   summary: string,   # summary what changed, e.g., first line of commit
 #   issues: [string]   # issue numbers (including # or project name)

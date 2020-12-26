@@ -20,6 +20,7 @@ event=$(jq -c <<EOF
   "duration": 5.0,
   "data": {
     "hook": "$HOOK",
+    "origin": "$(git config --get remote.origin.url)",
     "branch": "$(git_current_branch)",
     "summary": "$(git_title_from_last_commit)",
     "issues": $(git_issues_from_last_commit)

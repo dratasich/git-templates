@@ -21,6 +21,7 @@
       to be visible in timeline -> 2s. If set to 1h and another event is sent to
       the bucket within the same hour, the events are overlapping, i.e., a new
       event does not stop the previous one.
+- [x] Add remote.origin.url
 - [x] Add branch
 - [x] Add first line of commit message (summary/title)
 
