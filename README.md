@@ -5,6 +5,10 @@
 
 - [x] Copies hooks into `.git/hooks` on `git clone` and `git init` given the
       install settings in this README
+- [ ] Fork from
+      [greg0ire/git_template](https://github.com/greg0ire/git_template) and add
+      aw hooks there (advantage: activate and deactivate hooks, e.g., depending
+      on language, use of aw)
 
 ### ActivityWatch (aw)
 
@@ -23,6 +27,8 @@
 
 ## Install
 
+Make this repository the template for the `.git` directory of a repository.
+
 ```bash
 $ cd ~
 $ git clone git@github.com:dratasich/git-templates.git .git-templates
@@ -31,3 +37,13 @@ $ git config --global init.templatedir '~/.git-templates'
 
 As soon as a new repo is cloned or initialized the hooks are copied to the repo's `.git/hooks` folder.
 
+To update an existing `.git` directory use:
+```bash
+$ cd <a-repository>
+$ rsync --archive --verbose --compress --cvs-exclude $HOME/.git-templates/hooks .git/hooks --delete
+```
+
+## References
+
+- [Customizing git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+- [Customizable git template example](https://github.com/greg0ire/git_template)
