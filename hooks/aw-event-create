@@ -17,6 +17,9 @@ BUCKET="aw-git-hooks_$HOSTNAME"
 AW_SERVER="http://localhost:5600"
 SCRIPT_PATH=${0%/*}
 
+# load helper functions
+. "$SCRIPT_PATH"/logger
+
 http () {
     method="$1"
     path="$2"
@@ -35,14 +38,12 @@ http () {
 
 # check event body
 if jq -e . >/dev/null 2>&1 <<<"$event"; then
-    echo "Successfully parsed event as json."
+    # send event
+    if [ "$(http POST /api/0/buckets/$BUCKET/events "$event")" = "200" ] ; then
+        log "Successfully created event $event in bucket $BUCKET at aw-server $AW_SERVER."
+    else
+        log "Failed to create event $event in bucket $BUCKET at aw-server $AW_SERVER."
+    fi
 else
-    echo "Failed to parse event as json."
-fi
-
-# send event
-if [ "$(http POST /api/0/buckets/$BUCKET/events "$event")" = "200" ] ; then
-    echo "Successfully created event $event in bucket $BUCKET at aw-server $AW_SERVER."
-else
-    echo "Failed to create event $event in bucket $BUCKET at aw-server $AW_SERVER."
+    log "Failed to parse event as json."
 fi

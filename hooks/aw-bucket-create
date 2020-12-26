@@ -11,6 +11,10 @@ EOF
 )
 
 AW_SERVER="http://localhost:5600"
+SCRIPT_PATH=${0%/*}
+
+# load helper functions
+. "$SCRIPT_PATH"/logger
 
 http () {
     method=$1
@@ -31,8 +35,8 @@ http () {
 # check if bucket exists
 if [ "$(http GET /api/0/buckets/$bucket)" = "404" ] ; then
     if [ "$(http POST /api/0/buckets/$bucket $spec)" = "200" ] ; then
-        echo "Successfully created bucket $bucket at aw-server $AW_SERVER."
+        log "Successfully created bucket $bucket at aw-server $AW_SERVER."
     else
-        echo "Failed to create bucket $bucket at aw-server $AW_SERVER."
+        log "Failed to create bucket $bucket at aw-server $AW_SERVER."
     fi
 fi
