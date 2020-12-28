@@ -43,6 +43,15 @@ $ cd <a-repository>
 $ rsync --archive --verbose --compress --cvs-exclude $HOME/.git-templates/hooks .git/hooks --delete
 ```
 
+For convenience you can use the `update` script
+to recursively sync all `.git` folders given a root directory.
+
+```bash
+$ ./update.sh <path-to-repos>
+```
+
+For more infos check `./update.sh -h`.
+
 ## References
 
 - [Customizing git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
