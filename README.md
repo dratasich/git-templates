@@ -31,9 +31,8 @@
 Make this repository the template for the `.git` directory of a repository.
 
 ```bash
-$ cd ~
-$ git clone git@github.com:dratasich/git-templates.git .git-templates
-$ git config --global init.templatedir '~/.git-templates'
+$ git clone git@github.com:dratasich/git-templates.git $HOME/.git-templates
+$ git config --global init.templatedir '~/.git-templates/template'
 ```
 
 As soon as a new repo is cloned or initialized the hooks are copied to the repo's `.git/hooks` folder.
