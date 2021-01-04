@@ -31,8 +31,9 @@
 Make this repository the template for the `.git` directory of a repository.
 
 ```bash
-$ git clone git@github.com:dratasich/git-templates.git $HOME/.git-templates
-$ git config --global init.templatedir '~/.git-templates/template'
+$ git clone git@github.com:dratasich/git-templates.git
+$ ln -s git-templates/template $HOME/.git-template
+$ git config --global init.templatedir '~/.git-template'
 ```
 
 As soon as a new repo is cloned or initialized the hooks are copied to the repo's `.git/hooks` folder.
@@ -40,7 +41,7 @@ As soon as a new repo is cloned or initialized the hooks are copied to the repo'
 To update an existing `.git` directory use:
 ```bash
 $ cd <a-repository>
-$ rsync --archive --verbose --compress --cvs-exclude $HOME/.git-templates/hooks .git/hooks --delete
+$ rsync --archive --verbose --compress --cvs-exclude $HOME/.git-template/hooks/ .git/hooks --delete
 ```
 
 For convenience you can use the `update` script

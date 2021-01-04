@@ -8,7 +8,7 @@
 # Configs
 #
 
-template="$HOME/.git-templates/template"
+template="$HOME/.git-template"
 
 ## Print usage message
 usage() {
